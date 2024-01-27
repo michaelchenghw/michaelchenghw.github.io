@@ -1,0 +1,19 @@
+<!-- Include the Plaid Link script -->
+<script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+
+<script>
+  // Use the Link token to initialize Plaid Link
+  const linkHandler = Plaid.create({
+    token: 'your_link_token',
+    onSuccess: function (publicToken, metadata) {
+      // Handle successful Link integration
+      // Send the publicToken to your server to exchange for an access token
+    },
+    onExit: function (err, metadata) {
+      // Handle the user exiting the Link flow
+    },
+  });
+
+  // Open the Link flow
+  linkHandler.open();
+</script>
