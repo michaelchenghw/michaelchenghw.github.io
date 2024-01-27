@@ -9,9 +9,9 @@
   const linkHandler = Plaid.create({
     token: 'link-sandbox-18833277-498b-4b30-bc23-b45904200ea2',
     onSuccess: function (publicToken, metadata) {
-      exchange = new getAccessToken(publicToken);
+      exchange = getAccessToken(publicToken);
       let accessToken = exchange.access_token;
-      account = new getItem(accessToken).accounts[0];
+      account = getItem(accessToken).accounts[0];
       balance = account.balances.available.toString();
       document.getElementById("balance").innerHTML = balance;
     },
@@ -23,7 +23,7 @@
   // Open the Link flow
   linkHandler.open();
 
-  async function getAccessToken(myPublicToken) {
+  function getAccessToken(myPublicToken) {
     fetch('https://sandbox.plaid.com/item/public_token/exchange', {
         method: 'POST',
         headers: {
@@ -50,7 +50,7 @@
         });
   }
 
-  async function getItem(myAccessToken){
+  function getItem(myAccessToken){
     fetch('https://sandbox.plaid.com/accounts/balance/get', {
         method: 'POST',
         headers: {
