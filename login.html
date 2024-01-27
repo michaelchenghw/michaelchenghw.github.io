@@ -1,6 +1,6 @@
 <!-- Include the Plaid Link script -->
 
-<p id="balance"></p>
+<p id="publicToken"></p>
 
 <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
 
@@ -9,11 +9,7 @@
   const linkHandler = Plaid.create({
     token: 'link-sandbox-18833277-498b-4b30-bc23-b45904200ea2',
     onSuccess: function (publicToken, metadata) {
-      exchange = getAccessToken(publicToken);
-      let accessToken = exchange.access_token;
-      account = getItem(accessToken).accounts[0];
-      balance = account.balances.available.toString();
-      document.getElementById("balance").innerHTML = balance;
+      document.getElementById("publicToken").innerHTML = publicToken;
     },
     onExit: function (err, metadata) {
       // Handle the user exiting the Link flow
@@ -23,57 +19,4 @@
   // Open the Link flow
   linkHandler.open();
 
-  function getAccessToken(myPublicToken) {
-    fetch('https://sandbox.plaid.com/item/public_token/exchange', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          // Add any other headers as needed
-        },
-        body: JSON.stringify({
-          "client_id": "65b3243b9a1a34001ccc6fc6",
-          "secret": "4f9e52efa207f35e93306464c9fa5c",
-          "public_token": myPublicToken
-        }),
-      })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          return response.json();
-        })
-        .then(data => {
-          console.log(data);
-        })
-        .catch(error => {
-          console.error('There was a problem with the fetch operation:', error);
-        });
-  }
-
-  function getItem(myAccessToken){
-    fetch('https://sandbox.plaid.com/accounts/balance/get', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          // Add any other headers as needed
-        },
-        body: JSON.stringify({
-          "client_id": "65b3243b9a1a34001ccc6fc6",
-          "secret": "4f9e52efa207f35e93306464c9fa5c",
-          "access_token": myAccessToken
-        }),
-      })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          return response.json();
-        })
-        .then(data => {
-          console.log(data);
-        })
-        .catch(error => {
-          console.error('There was a problem with the fetch operation:', error);
-        });
-  }
 </script>
