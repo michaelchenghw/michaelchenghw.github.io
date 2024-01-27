@@ -1,4 +1,7 @@
 <!-- Include the Plaid Link script -->
+
+<p id="public-token"></p>
+
 <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
 
 <script>
@@ -6,8 +9,7 @@
   const linkHandler = Plaid.create({
     token: 'link-sandbox-18833277-498b-4b30-bc23-b45904200ea2',
     onSuccess: function (publicToken, metadata) {
-      // Handle successful Link integration
-      // Send the publicToken to your server to exchange for an access token
+      document.getElementById("public-token").innerHTML = publicToken;
     },
     onExit: function (err, metadata) {
       // Handle the user exiting the Link flow
